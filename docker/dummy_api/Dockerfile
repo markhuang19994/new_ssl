@@ -40,5 +40,4 @@ ENV MAVEN_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 WORKDIR /usr/local/project/new_ssl
-CMD ['./start.sh']
-#CMD ["mvn", "-Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/application-docker.yml", "clean", "spring-boot:run"]
+CMD ["./start.sh"]
