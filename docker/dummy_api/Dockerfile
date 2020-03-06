@@ -10,6 +10,7 @@ RUN \
     mkdir -p /usr/local/project  && \
     cd /usr/local/project && \
     git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
+    chmod +x ./new_ssl/start.sh && \
     rm -rf ./new_ssl/src/main/resources/application.yml && \
     \
     mkdir -p /tmp/rc && \
@@ -33,4 +34,5 @@ ENV MAVEN_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 WORKDIR /usr/local/project/new_ssl
-CMD ["mvn", "-Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/application-docker.yml", "clean", "spring-boot:run"]
+CMD ['./start.sh']
+#CMD ["mvn", "-Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/application-docker.yml", "clean", "spring-boot:run"]

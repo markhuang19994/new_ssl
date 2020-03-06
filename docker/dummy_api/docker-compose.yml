@@ -3,7 +3,7 @@ services:
   dummy_api:
     build: .
     volumes:
-      - ./com:/usr/local/project/ssl/src/main/java/com
+      - ./com:/usr/local/project/new_ssl/src/main/java/com
       - ./data:/var/opt/ssl/data
       - ./log:/var/log/supervisor
     ports:
