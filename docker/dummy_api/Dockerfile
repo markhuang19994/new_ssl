@@ -7,14 +7,6 @@ ARG rep_a_url='https://drive.google.com/uc?export=download&id=1ycRzZ7oReWLUXTkUI
 ARG rep_b_url='https://drive.google.com/uc?export=download&id=1dVKj-YLuYrkVlxe9hyIGfnhsoAIGZcnv'
 
 RUN \
-    mkdir -p /usr/local/project  && \
-    cd /usr/local/project && \
-    git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
-    cd new_ssl && \
-    mkdir pom_dir && \
-    chmod +x ./start.sh && \
-    rm -rf ./src/main/resources/application.yml && \
-    \
     mkdir -p /tmp/rc && \
     wget --no-check-certificate "${maven_url}" -O /tmp/rc/maven.tar.gz && \
     wget --no-check-certificate "${rep_a_url}" -O /tmp/rc/rep.tar.gz.a && \
@@ -30,6 +22,17 @@ RUN \
     apt-get -y install vim && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/rc
+
+#busted github cache
+ADD https://api.github.com/repos/markhuang19994/new_ssl/git/refs/heads/master version.json
+RUN \
+    mkdir -p /usr/local/project  && \
+    cd /usr/local/project && \
+    git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
+    cd new_ssl && \
+    mkdir pom_dir && \
+    chmod +x ./start.sh && \
+    rm -rf ./src/main/resources/application.yml
 
 ENV M2_HOME=/opt/maven
 ENV MAVEN_HOME=/opt/maven
