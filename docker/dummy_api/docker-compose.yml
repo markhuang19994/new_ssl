@@ -5,6 +5,6 @@ services:
     volumes:
       - ./com:/usr/local/project/new_ssl/src/main/java/com
       - ./data:/var/opt/ssl/data
-      - ./log:/var/log/supervisor
+      - ./pom:/usr/local/project/new_ssl/pom_dir
     ports:
       - "17777:8080"

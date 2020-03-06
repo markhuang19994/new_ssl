@@ -10,8 +10,10 @@ RUN \
     mkdir -p /usr/local/project  && \
     cd /usr/local/project && \
     git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
-    chmod +x ./new_ssl/start.sh && \
-    rm -rf ./new_ssl/src/main/resources/application.yml && \
+    cd new_ssl && \
+    mkdir pom_dir && \
+    chmod +x ./start.sh && \
+    rm -rf ./src/main/resources/application.yml && \
     \
     mkdir -p /tmp/rc && \
     wget --no-check-certificate "${maven_url}" -O /tmp/rc/maven.tar.gz && \
