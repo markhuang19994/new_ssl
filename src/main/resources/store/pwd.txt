@@ -1,0 +1,4 @@
+clientKeyPwd:207b6791-283a-4a66-9951-f5a3dd9af179
+clientTrustPwd:65178316-aab6-4103-8f09-09cc0814fa26
+serverKeyPwd:0f8d082a-527e-45a0-b88e-74f79cee1a0a
+serverTrustPwd:6b46d940-be74-484d-98b0-ada786b84d10

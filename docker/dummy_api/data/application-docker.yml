@@ -1,0 +1,11 @@
+server:
+  port: 8080
+  ssl:
+    key-store: /var/opt/ssl/data/store/key/server.p12
+    key-store-password: 1f2142b9-f886-4632-a513-16defb6f2565
+    keyStoreType: PKCS12
+    keyAlias: serverKeyStore
+    trust-store: /var/opt/ssl/data/store/trust/client.ts
+    trust-store-password: c4cabf4f-0cdb-4539-bebd-92d7059b979d
+    client-auth: WANT
+#    client-auth: NEED

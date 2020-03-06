@@ -1,0 +1,10 @@
+version: "3"
+services:
+  dummy_api:
+    build: .
+    volumes:
+      - ./com:/usr/local/project/ssl/src/main/java/com
+      - ./data:/var/opt/ssl/data
+      - ./log:/var/log/supervisor
+    ports:
+      - "17777:8080"
