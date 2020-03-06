@@ -31,6 +31,7 @@ RUN \
     git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
     cd new_ssl && \
     mkdir pom_dir && \
+    sed -i 's/\r$//' ./start.sh && \
     chmod +x ./start.sh && \
     rm -rf ./src/main/resources/application.yml
 
