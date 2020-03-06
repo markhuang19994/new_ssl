@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@SpringBootApplication(scanBasePackages = {"example", "dynamic"})
+@SpringBootApplication(scanBasePackages = {"example", "dynamic", "com"})
 public class SslApplication {
 
     public static void main(String[] args) {
