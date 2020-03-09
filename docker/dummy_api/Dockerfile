@@ -17,10 +17,6 @@ RUN \
     \
     mkdir -p /root/.m2 && \
     cat /tmp/rc/rep.tar.gz.* | tar -zxf - -C /root/.m2 && \
-    \
-    apt-get update && \
-    apt-get -y install vim && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/rc
 
 #busted github cache

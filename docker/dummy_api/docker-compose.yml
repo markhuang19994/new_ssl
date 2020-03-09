@@ -3,8 +3,8 @@ services:
   dummy_api:
     build: .
     volumes:
-      - ./com:/usr/local/project/new_ssl/src/main/java/com
-      - ./data:/var/opt/ssl/data
-      - ./pom:/usr/local/project/new_ssl/pom_dir
+      - ./volume/com:/usr/local/project/new_ssl/src/main/java/com
+      - ./volume/data:/var/opt/ssl/data
+      - ./volume/pom:/usr/local/project/new_ssl/pom_dir
     ports:
       - "17777:8080"
