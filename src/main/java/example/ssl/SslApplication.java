@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@SpringBootApplication(scanBasePackages = {"example", "dynamic", "com"})
+@SpringBootApplication(scanBasePackages = {"example", "common", "com"})
 public class SslApplication {
 
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class SslApplication {
         System.out.println(getHandlersPrintString(ctx));
     }
 
-    static String getHandlersPrintString(ApplicationContext ctx) {
+    public static String getHandlersPrintString(ApplicationContext ctx) {
         RequestMappingHandlerMapping requestMappingHandlerMapping = ctx.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
         StringBuilder sb = new StringBuilder();
