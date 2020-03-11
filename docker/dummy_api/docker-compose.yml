@@ -1,13 +1,6 @@
 version: "3"
 services:
   dummy_api:
-    build:
-      context: .
-      args:
-        - newmacaque=192.168.27.45
-    volumes:
-      - ./volume/com:/usr/local/project/new_ssl/src/main/java/com
-      - ./volume/data:/var/opt/ssl/data
-      - ./volume/pom:/usr/local/project/new_ssl/pom_dir
+    build: .
     ports:
       - "17777:8080"
