@@ -34,27 +34,36 @@ class SslApplication {
             t
         })
         es.scheduleAtFixedRate({
-            if (isShutdown.get()) return
-            def gitDir = '/usr/local/docker/dummy_api' as File
-            def lastHashTxt = '/usr/local/docker/lh.txt' as File
+            try {
+                if (isShutdown.get()) return
+                def gitDir = '/usr/local/docker/dummy_api' as File
+                def lastHashTxt = '/usr/local/docker/lh.txt' as File
 
-            ['git', 'fetch', '--progress', 'origin', 'master'].execute(null, gitDir)
-            def hash = ['git', 'rev-parse', 'origin/master^{commit}'].execute(null, gitDir).text
+                ['git', 'fetch', '--progress', 'origin', 'master'].execute(null, gitDir)
+                def hash = ['git', 'rev-parse', 'origin/master^{commit}'].execute(null, gitDir).text
 
-            if (!lastHashTxt.exists()) {
-                lastHashTxt.withWriter {
-                    lastHashTxt.write(hash)
-                }
-                return
-            }
-
-            if (lastHashTxt.text != hash) {
-                lastHashTxt.withWriter {
-                    lastHashTxt.write(hash)
+                if (!lastHashTxt.exists()) {
+                    lastHashTxt.withWriter {
+                        lastHashTxt.write(hash)
+                    }
+                    return
                 }
 
-                isShutdown.set(true)
-                cdl.countDown()
+                println 'now hash:' + hash
+                println 'last hash:' + lastHashTxt.text
+                println ''
+                println ''
+
+                if (lastHashTxt.text != hash) {
+                    lastHashTxt.withWriter {
+                        lastHashTxt.write(hash)
+                    }
+
+                    isShutdown.set(true)
+                    cdl.countDown()
+                }
+            } catch (Exception e) {
+                e.printStackTrace()
             }
         }, 0, 5, TimeUnit.SECONDS)
         cdl.await()
