@@ -1,5 +1,7 @@
-package example.ssl;
+package example.ssl
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -21,10 +23,12 @@ import java.util.stream.Collectors;
 @SpringBootApplication(scanBasePackages = ["example", "common", "com"])
 class SslApplication {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SslApplication.class)
+
     static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(SslApplication.class, args);
-        System.out.println(System.lineSeparator());
-        System.out.println(getHandlersPrintString(ctx));
+        LOGGER.debug(System.lineSeparator());
+        LOGGER.debug(getHandlersPrintString(ctx));
 
         CountDownLatch cdl = new CountDownLatch(1)
         AtomicBoolean isShutdown = new AtomicBoolean(false)
@@ -43,18 +47,21 @@ class SslApplication {
                 def hash = ['git', 'rev-parse', 'origin/master^{commit}'].execute(null, gitDir).text
 
                 if (!lastHashTxt.exists()) {
+                    lastHashTxt.parentFile.mkdirs()
                     lastHashTxt.withWriter {
                         lastHashTxt.write(hash)
                     }
                     return
                 }
 
-                println 'now hash:' + hash
-                println 'last hash:' + lastHashTxt.text
-                println ''
-                println ''
+                LOGGER.debug 'now hash:' + hash
+                LOGGER.debug 'last hash:' + lastHashTxt.text
+                LOGGER.debug ''
+                LOGGER.debug ''
 
                 if (lastHashTxt.text != hash) {
+                    ['git', 'checkout', '-f', 'origin/master'].execute(null, gitDir)
+
                     lastHashTxt.withWriter {
                         lastHashTxt.write(hash)
                     }
@@ -63,20 +70,18 @@ class SslApplication {
                     cdl.countDown()
                 }
             } catch (Exception e) {
-                e.printStackTrace()
+                LOGGER.error(e.getMessage(), e)
             }
         }, 0, 5, TimeUnit.SECONDS)
         cdl.await()
-        SpringApplication.exit(ctx)
         Thread t = new Thread({
-            def ips = ['./start.sh'].execute(null, '/usr/local/project/new_ssl' as File)
-                    .inputStream
-
-            int tmp;
-            while ((tmp = ips.read()) != -1) {
-                print((char) tmp)
+            try {
+                def ips = ['./restart.sh'].execute(null, '/usr/local/project/new_ssl' as File)
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e)
             }
-        })
+        }).start()
+        SpringApplication.exit(ctx)
     }
 
     static String getHandlersPrintString(ApplicationContext ctx) {

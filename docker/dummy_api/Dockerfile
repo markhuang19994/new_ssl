@@ -11,6 +11,7 @@ RUN \
     wget --no-check-certificate "${maven_url}" -O /tmp/rc/maven.tar.gz && \
     wget --no-check-certificate "${rep_a_url}" -O /tmp/rc/rep.tar.gz.a && \
     wget --no-check-certificate "${rep_b_url}" -O /tmp/rc/rep.tar.gz.b && \
+    sleep 5 && \
     \
     tar xf /tmp/rc/maven.tar.gz -C /opt && \
     ln -s /opt/maven /opt/maven && \
@@ -22,7 +23,7 @@ RUN \
 RUN \
     mkdir -p /usr/local/docker  && \
     cd /usr/local/docker && \
-    git clone --progress --verbose https://finsrv01.iead.local/git/CITI_DUMMY_API.git && \
+    git clone --progress --verbose http://markhuang:markhuang%40iisi1@finsrv01.iead.local/git/CITI_DUMMY_API.git && \
     mv CITI_DUMMY_API dummy_api
 
 #busted github cache
@@ -32,9 +33,12 @@ RUN \
     cd /usr/local/project && \
     git clone --progress --verbose https://github.com/markhuang19994/new_ssl.git && \
     cd new_ssl && \
+    git checkout -f sit && \
     mkdir pom_dir && \
     sed -i 's/\r$//' ./start.sh && \
+    sed -i 's/\r$//' ./restart.sh && \
     chmod +x ./start.sh && \
+    chmod +x ./restart.sh && \
     rm -rf ./src/main/resources/application.yml
 
 ENV M2_HOME=/opt/maven
