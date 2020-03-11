@@ -19,8 +19,14 @@ RUN \
     cat /tmp/rc/rep.tar.gz.* | tar -zxf - -C /root/.m2 && \
     rm -rf /tmp/rc
 
+RUN \
+    mkdir -p /usr/local/docker  && \
+    cd /usr/local/docker && \
+    git clone --progress --verbose https://finsrv01.iead.local/git/CITI_DUMMY_API.git && \
+    mv CITI_DUMMY_API dummy_api
+
 #busted github cache
-ADD https://api.github.com/repos/markhuang19994/new_ssl/git/refs/heads/master version.json
+ADD https://api.github.com/repos/markhuang19994/new_ssl/git/refs/heads/sit version.json
 RUN \
     mkdir -p /usr/local/project  && \
     cd /usr/local/project && \
