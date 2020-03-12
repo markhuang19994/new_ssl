@@ -74,7 +74,7 @@ class SslApplication {
         SpringApplication.exit(ctx)
         Thread t = new Thread({
             try {
-                ['./start.sh notFirst'].execute(null, '/usr/local/project/new_ssl' as File)
+                ['./start.sh', 'notFirst'].execute(null, '/usr/local/project/new_ssl' as File)
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }
