@@ -79,6 +79,8 @@ class SslApplication {
                             .execute(null, '/usr/local/project/new_ssl' as File)
                     p.waitFor(180, TimeUnit.SECONDS)
                     if (p.exitValue() != 0) {
+                        LOGGER.error '\n' + p.inputStream.text
+                        LOGGER.error '\n' + p.errorStream.text
                         LOGGER.error('啟動失敗，3分鐘後重新嘗試...')
                         TimeUnit.MINUTES.sleep(3)
                         continue
