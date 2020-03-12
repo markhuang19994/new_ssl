@@ -22,9 +22,9 @@ class SslApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(SslApplication.class)
 
     static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(SslApplication.class, args);
-        LOGGER.debug(System.lineSeparator());
-        LOGGER.debug(getHandlersPrintString(ctx));
+        ConfigurableApplicationContext ctx = SpringApplication.run(SslApplication.class, args)
+        LOGGER.debug(System.lineSeparator())
+        LOGGER.debug(getHandlersPrintString(ctx))
 
         CountDownLatch cdl = new CountDownLatch(1)
         AtomicBoolean isShutdown = new AtomicBoolean(false)
@@ -91,18 +91,18 @@ class SslApplication {
     }
 
     static String getHandlersPrintString(ApplicationContext ctx) {
-        RequestMappingHandlerMapping requestMappingHandlerMapping = ctx.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
-        StringBuilder sb = new StringBuilder();
-        int maxLength = 0;
+        RequestMappingHandlerMapping requestMappingHandlerMapping = ctx.getBean(RequestMappingHandlerMapping.class)
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods()
+        StringBuilder sb = new StringBuilder()
+        int maxLength = 0
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-            String sKey = String.valueOf(entry.getKey());
-            String sVal = String.valueOf(entry.getValue());
-            sb.append(String.format("rule:%s\nmethod:%s\n#underline#\n", sKey, sVal));
-            int length = sKey.length() + sVal.length();
-            maxLength = Math.max(maxLength, length);
+            String sKey = String.valueOf(entry.getKey())
+            String sVal = String.valueOf(entry.getValue())
+            sb.append(String.format("rule:%s\nmethod:%s\n#underline#\n", sKey, sVal))
+            int length = sKey.length() + sVal.length()
+            maxLength = Math.max(maxLength, length)
         }
-        return sb.toString().replace("#underline#", '-' * maxLength);
+        return sb.toString().replace("#underline#", '-' * maxLength)
     }
 
 }
