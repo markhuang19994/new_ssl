@@ -46,4 +46,4 @@ ENV MAVEN_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 WORKDIR /usr/local/project/new_ssl
-CMD ["./start.sh"]
+CMD ["./start.sh", "first"]

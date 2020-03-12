@@ -8,9 +8,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                ${PATTERN}
-            </Pattern>
+            <Pattern>${PATTERN}</Pattern>
             <charset>${CHARSET}</charset>
         </encoder>
     </appender>
@@ -25,31 +23,35 @@
 
     <logger name="com" level="debug" additivity="false" >
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="common" level="debug" additivity="false" >
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="example" level="debug" additivity="false" >
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.eclipse.jetty.server" level="debug" additivity="false" >
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.springframework.security" level="debug" additivity="false">
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.springframework.web" level="debug" additivity="false">
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.springframework.web.servlet.handler" level="off" additivity="false">
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
-    </root>
-
-    <root level="debug">
         <appender-ref ref="FILE"/>
     </root>
 

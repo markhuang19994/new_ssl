@@ -1,8 +1,6 @@
 version: "3"
 services:
-  dummy_api:
+  dummy_api_sit:
     build: .
-    volumes:
-      - ./volume/data:/var/opt/ssl/data
     ports:
       - "17777:8080"

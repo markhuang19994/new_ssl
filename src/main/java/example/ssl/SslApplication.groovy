@@ -1,24 +1,20 @@
 package example.ssl
 
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.slf4j.LoggerFactory
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.web.method.HandlerMethod
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 
-import java.util.Arrays;
-import java.util.Map
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-
+import java.util.concurrent.atomic.AtomicBoolean
 
 @SpringBootApplication(scanBasePackages = ["example", "common", "com"])
 class SslApplication {
@@ -60,6 +56,7 @@ class SslApplication {
                 LOGGER.debug ''
 
                 if (lastHashTxt.text != hash) {
+                    ['git', 'clean', '-f'].execute(null, gitDir)
                     ['git', 'checkout', '-f', 'origin/master'].execute(null, gitDir)
 
                     lastHashTxt.withWriter {
@@ -74,14 +71,14 @@ class SslApplication {
             }
         }, 0, 5, TimeUnit.SECONDS)
         cdl.await()
+        SpringApplication.exit(ctx)
         Thread t = new Thread({
             try {
-                def ips = ['./restart.sh'].execute(null, '/usr/local/project/new_ssl' as File)
+                ['./start.sh notFirst'].execute(null, '/usr/local/project/new_ssl' as File)
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }
         }).start()
-        SpringApplication.exit(ctx)
     }
 
     static String getHandlersPrintString(ApplicationContext ctx) {
