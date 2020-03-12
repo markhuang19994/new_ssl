@@ -6,12 +6,16 @@ else
   sleep 5
 fi
 
-rm -rf /usr/local/project/new_ssl/src/main/java/com/*
-rm -rf /var/opt/ssl/data/*
-rm -f /usr/local/project/new_ssl/pom.xml
+rm -rf /usr/local/project/new_ssl/src/main/java/com
+mkdir -p /usr/local/project/new_ssl/src/main/java/com
 /bin/cp -fR /usr/local/docker/dummy_api/volume/com/* /usr/local/project/new_ssl/src/main/java/com
+
+rm -rf /var/opt/ssl/data
+mkdir -p /var/opt/ssl/data
 /bin/cp -fR /usr/local/docker/dummy_api/volume/data/* /var/opt/ssl/data
-/bin/cp -fR /usr/local/docker/dummy_api/volume/pom/pom.xml /usr/local/project/new_ssl/pom.xml
+
+rm -f /usr/local/project/new_ssl/pom.xml
+/bin/cp -f /usr/local/docker/dummy_api/volume/pom/pom.xml /usr/local/project/new_ssl/pom.xml
 
 rm -f /tmp/myLog.log
 mvn clean
