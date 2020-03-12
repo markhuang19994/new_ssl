@@ -1,11 +1,10 @@
 #!/bin/bash
+echo 'update git repo'
+/usr/local/project/new_ssl/update_git_repo.sh
+
 if [ "$1" = 'first' ]; then
   echo 'start...'
   rm -f /tmp/myLog.log
-  cd /usr/local/docker/dummy_api || exit
-  git fetch --progress origin master
-  git clean -f
-  git checkout -f origin/master
 else
   echo 'restart...'
   sleep 5

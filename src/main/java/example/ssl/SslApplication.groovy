@@ -56,9 +56,6 @@ class SslApplication {
                 LOGGER.debug ''
 
                 if (lastHashTxt.text != hash) {
-                    ['git', 'clean', '-f'].execute(null, gitDir)
-                    ['git', 'checkout', '-f', 'origin/master'].execute(null, gitDir)
-
                     lastHashTxt.withWriter {
                         lastHashTxt.write(hash)
                     }
