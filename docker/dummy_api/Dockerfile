@@ -36,9 +36,7 @@ RUN \
     git checkout -f sit && \
     mkdir pom_dir && \
     sed -i 's/\r$//' ./start.sh && \
-    sed -i 's/\r$//' ./restart.sh && \
     chmod +x ./start.sh && \
-    chmod +x ./restart.sh && \
     rm -rf ./src/main/resources/application.yml
 
 ENV M2_HOME=/opt/maven

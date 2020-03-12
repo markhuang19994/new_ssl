@@ -74,7 +74,17 @@ class SslApplication {
         SpringApplication.exit(ctx)
         Thread t = new Thread({
             try {
-                ['./start.sh', 'notFirst'].execute(null, '/usr/local/project/new_ssl' as File)
+                for (int i = 0; i < 3; i++) {
+                    def p = ['./start.sh', 'notFirst']
+                            .execute(null, '/usr/local/project/new_ssl' as File)
+                    p.waitFor(180, TimeUnit.SECONDS)
+                    if (p.exitValue() != 0) {
+                        LOGGER.error('啟動失敗，3分鐘後重新嘗試...')
+                        TimeUnit.MINUTES.sleep(3)
+                        continue
+                    }
+                    break
+                }
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }

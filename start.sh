@@ -19,8 +19,11 @@ rm -f /usr/local/project/new_ssl/pom.xml
 
 rm -f /tmp/myLog.log
 mvn clean
-mvn -Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/application-docker.yml spring-boot:run >/dev/null 2>&1 &
 
+spring_jvm_args='-Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/application-docker.yml'
 if [ "$1" = 'first' ]; then
+  mvn "$spring_jvm_args" spring-boot:run >/dev/null 2>&1 &
   tail -F /tmp/myLog.log
+else
+  mvn "$spring_jvm_args" spring-boot:run
 fi
