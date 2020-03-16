@@ -2,5 +2,6 @@ version: "3"
 services:
   dummy_api_sit:
     build: .
+    restart: always
     ports:
       - "17777:8080"
