@@ -39,7 +39,7 @@ class SslApplication {
                 def gitDir = '/usr/local/docker/dummy_api' as File
                 def lastHashTxt = '/usr/local/docker/lh.txt' as File
 
-                ['git', 'fetch', '--progress', 'origin', 'master'].execute(null, gitDir)
+                ['./update_git_repo.sh'].execute(null, '/usr/local/project/new_ssl' as File)
                 def hash = ['git', 'rev-parse', 'origin/master^{commit}'].execute(null, gitDir).text
 
                 if (!lastHashTxt.exists()) {

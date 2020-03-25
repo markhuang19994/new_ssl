@@ -23,6 +23,7 @@ sudo chown "$USER":"$USER" aws.p12
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/aws-remote-key"
 git clone --progress --verbose git@github.com:markhuang19994/CITI_DUMMY_API.git
 sudo cp ./aws.p12 CITI_DUMMY_API/volume/data/store/key/aws.p12
+cd CITI_DUMMY_API || exit
 sudo git add volume/data/store/key/aws.p12
 git commit -m 'update server certificate'
 git push origin master
