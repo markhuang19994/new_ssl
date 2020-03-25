@@ -14,13 +14,15 @@ APPLICATION_CONFIG=application-docker.yml
 if [ -n "$2" ]; then
   APPLICATION_CONFIG="$2"
 fi
+echo "application config: ${APPLICATION_CONFIG}"
 
 ENV_PROFILE=sit
 if [ -n "$3" ]; then
   ENV_PROFILE="$3"
 fi
+echo "env profile: ${ENV_PROFILE}"
 
-echo "app config is ${APPLICATION_CONFIG}"
+echo "app config: ${APPLICATION_CONFIG}"
 
 rm -rf /usr/local/project/new_ssl/src/main/java/com
 mkdir -p /usr/local/project/new_ssl/src/main/java/com
@@ -35,7 +37,8 @@ rm -f /usr/local/project/new_ssl/pom.xml
 
 cd /usr/local/project/new_ssl || exit
 mvn clean
-spring_jvm_args="-Denv.profile=${ENV_PROFILE} -Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/${APPLICATION_CONFIG}"
+spring_jvm_args="-Dspring-boot.run.jvmArguments=-Denv.profile=${ENV_PROFILE} -Dspring.config.location=/var/opt/ssl/data/${APPLICATION_CONFIG}"
+echo "jvm arg: ${spring_jvm_args}"
 if [ "$1" = 'first' ]; then
   mvn "$spring_jvm_args" spring-boot:run >/dev/null 2>&1 &
   tail -F /tmp/myLog.log

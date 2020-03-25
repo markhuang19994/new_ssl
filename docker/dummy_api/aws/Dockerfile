@@ -27,7 +27,7 @@ RUN \
     mkdir -p /usr/local/docker  && \
     cd /usr/local/docker && \
     git config --global credential.helper 'store --file ~/.git-credentials' && \
-    echo https://markhuang19994:${GP}@github.com > ~/.git-credentials'
+    echo https://markhuang19994:${GP}@github.com > ~/.git-credentials && \
     git clone --progress --verbose "https://github.com/markhuang19994/CITI_DUMMY_API.git" && \
     mv CITI_DUMMY_API dummy_api
 
