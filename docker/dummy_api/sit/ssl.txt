@@ -1,0 +1,18 @@
+Step1 Client端
+---------------
+1.產生client私鑰:keytool -genkey -alias myClientKeyStore -dname "CN=Mark Huang,OU=llsl,O=llsl,L=XinYe,ST=Taipei,C=TW" -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore myClientKeyStore.p12 -validity 365
+
+2.從私鑰產生憑證:keytool -export -alias myClientKeyStore -file myClinetTrustStore.cer -keystore keystore.p12 -storepass p@ssw0rd 
+需要注意:
+	1.alias(=myClientKeyStore)必須要與私鑰的一致否則會報keytool error: java.lang.Exception: Alias <myServerKeyStore1> does not exist
+	2.storepass(=p@ssw0rd)必須要與私鑰的一致否則會報keytool error: java.io.IOException: keystore password was incorrect
+
+Step2 Server端
+---------------
+1.產生server私鑰:keytool -genkey -alias myServerKeyStore -dname "CN=Mark Huang,OU=llsl,O=llsl,L=XinYe,ST=Taipei,C=TW" -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore myServerKeyStore.p12 -validity 365
+
+2.從私鑰產生憑證:keytool -export -alias myServerKeyStore -file myServerTrustStore.cer -keystore myServerKeyStore.p12 -storepass p@ssw0rd 
+
+yes |keytool -import -v -trustcacerts -alias myClientKeyStore -keypass p@ssw0rd -file myClinetTrustStore.cer -keystore .ks -storepass p@ssw0rd
+
+

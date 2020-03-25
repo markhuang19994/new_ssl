@@ -2,6 +2,7 @@ version: "3"
 services:
   dummy_api_sit:
     build: .
+    container_name: dummy_api
     restart: always
     ports:
       - "17777:8080"
