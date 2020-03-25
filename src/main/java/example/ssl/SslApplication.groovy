@@ -10,6 +10,8 @@ import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -39,6 +41,11 @@ class SslApplication {
         es.scheduleAtFixedRate({
             try {
                 if (isShutdown.get()) return
+                if (isRestTime(20, 7, 'GMT+8')) {
+                    LOGGER.debug('Is rest time...')
+                    TimeUnit.HOURS.sleep(1)
+                    return
+                }
                 def gitDir = '/usr/local/docker/dummy_api' as File
                 def lastHashTxt = '/usr/local/docker/lh.txt' as File
 
@@ -70,14 +77,17 @@ class SslApplication {
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }
-        }, 0, envProfile == 'aws' ? 10 : 5, TimeUnit.SECONDS)
+        }, 0, envProfile == 'aws' ? 20 : 5, TimeUnit.SECONDS)
         cdl.await()
         SpringApplication.exit(ctx)
         Thread t = new Thread({
             try {
                 for (int i = 0; i < 3; i++) {
-                    def p = ['./start.sh', 'notFirst']
-                            .execute(null, '/usr/local/project/new_ssl' as File)
+                    def startCmd = ['./start.sh', 'notFirst']
+                    if (envProfile == 'aws') {
+                        startCmd << 'aws'
+                    }
+                    def p = startCmd.execute(null, '/usr/local/project/new_ssl' as File)
                     p.waitFor(180, TimeUnit.SECONDS)
                     if (p.exitValue() != 0) {
                         LOGGER.error '\n' + p.inputStream.text
@@ -107,6 +117,16 @@ class SslApplication {
             maxLength = Math.max(maxLength, length)
         }
         return sb.toString().replace("#underline#", '-' * maxLength)
+    }
+
+    static isRestTime(int restStartHour, int restEndHour, String gmtTime) {
+        def tz = TimeZone.getTimeZone(gmtTime)
+        def hour = LocalDateTime.now(tz.toZoneId()).hour
+        if (restStartHour < restEndHour) {
+            return hour >= restStartHour && hour <= restEndHour
+        } else {
+            return hour <= restStartHour && hour >= restEndHour
+        }
     }
 
 }
