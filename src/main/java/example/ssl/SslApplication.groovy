@@ -42,7 +42,8 @@ class SslApplication {
                 def gitDir = '/usr/local/docker/dummy_api' as File
                 def lastHashTxt = '/usr/local/docker/lh.txt' as File
 
-                ['./update_git_repo.sh'].execute(null, '/usr/local/project/new_ssl' as File)
+                ['./update_git_repo.sh'].execute(null, '/usr/local/project/new_ssl' as File).waitFor()
+                TimeUnit.SECONDS.sleep(2)
                 def hash = ['git', 'rev-parse', 'origin/master^{commit}'].execute(null, gitDir).text
 
                 if (!lastHashTxt.exists()) {
@@ -69,7 +70,7 @@ class SslApplication {
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }
-        }, 0, envProfile == 'aws' ? 5 * 60 : 5, TimeUnit.SECONDS)
+        }, 0, envProfile == 'aws' ? 10 : 5, TimeUnit.SECONDS)
         cdl.await()
         SpringApplication.exit(ctx)
         Thread t = new Thread({
