@@ -21,11 +21,12 @@ RUN \
     rm -rf /tmp/rc
 
 COPY ./aws-remote-key /home/root/.ssh/key
+ARG gpa
+ENV GP=$gpa
 RUN \
     mkdir -p /usr/local/docker  && \
     cd /usr/local/docker && \
-    export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/root/.ssh/key" && \
-    git clone --progress --verbose git@github.com:markhuang19994/CITI_DUMMY_API.git && \
+    git clone --progress --verbose "https://markhuang19994:${GP}@github.com/markhuang19994/CITI_DUMMY_API.git" && \
     mv CITI_DUMMY_API dummy_api
 
 #busted github cache
