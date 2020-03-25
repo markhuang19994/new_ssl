@@ -15,6 +15,11 @@ if [ -n "$2" ]; then
   APPLICATION_CONFIG="$2"
 fi
 
+ENV_PROFILE=sit
+if [ -n "$3" ]; then
+  ENV_PROFILE="$3"
+fi
+
 echo "app config is ${APPLICATION_CONFIG}"
 
 rm -rf /usr/local/project/new_ssl/src/main/java/com
@@ -30,7 +35,7 @@ rm -f /usr/local/project/new_ssl/pom.xml
 
 cd /usr/local/project/new_ssl || exit
 mvn clean
-spring_jvm_args="-Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/${APPLICATION_CONFIG}"
+spring_jvm_args="-Denv.profile=${ENV_PROFILE} -Dspring-boot.run.jvmArguments=-Dspring.config.location=/var/opt/ssl/data/${APPLICATION_CONFIG}"
 if [ "$1" = 'first' ]; then
   mvn "$spring_jvm_args" spring-boot:run >/dev/null 2>&1 &
   tail -F /tmp/myLog.log

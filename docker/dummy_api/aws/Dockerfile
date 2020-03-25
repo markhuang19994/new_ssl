@@ -48,4 +48,4 @@ ENV MAVEN_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 WORKDIR /usr/local/project/new_ssl
-CMD ["./start.sh", "first", "application-docker-aws.xml"]
+CMD ["./start.sh", "first", "application-docker-aws.xml", "aws"]

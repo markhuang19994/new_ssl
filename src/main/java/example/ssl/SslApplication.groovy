@@ -26,6 +26,9 @@ class SslApplication {
         LOGGER.debug(System.lineSeparator())
         LOGGER.debug(getHandlersPrintString(ctx))
 
+        def envProfile = System.properties['env.profile'] ?: 'sit'
+        LOGGER.debug "envProfile>>>>>>>>>>>>> $envProfile"
+
         CountDownLatch cdl = new CountDownLatch(1)
         AtomicBoolean isShutdown = new AtomicBoolean(false)
         final ExecutorService es = Executors.newScheduledThreadPool(1, {
@@ -66,7 +69,7 @@ class SslApplication {
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e)
             }
-        }, 0, 5, TimeUnit.SECONDS)
+        }, 0, envProfile == 'aws' ? 5 * 60 : 5, TimeUnit.SECONDS)
         cdl.await()
         SpringApplication.exit(ctx)
         Thread t = new Thread({
