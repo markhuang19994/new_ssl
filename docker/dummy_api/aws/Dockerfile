@@ -47,7 +47,7 @@ RUN \
     rm -rf ./src/main/resources/application.yml
 
 ENV M2_HOME=/opt/maven
-ENV MAVEN_HOME=/opt/maven-Denv.profile=${ENV_PROFILE}
+ENV MAVEN_HOME=/opt/maven
 ENV PATH=${M2_HOME}/bin:${PATH}
 
 WORKDIR /usr/local/project/new_ssl
