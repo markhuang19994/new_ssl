@@ -4,6 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.system.ApplicationPid
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.method.HandlerMethod
@@ -27,6 +28,9 @@ class SslApplication {
         ConfigurableApplicationContext ctx = SpringApplication.run(SslApplication.class, args)
         LOGGER.debug(System.lineSeparator())
         LOGGER.debug(getHandlersPrintString(ctx))
+
+        def pid = new ApplicationPid().toString()
+        LOGGER.debug "pid: $pid"
 
         def envProfile = System.properties['env.profile'] ?: 'sit'
         LOGGER.debug "envProfile>>>>>>>>>>>>> $envProfile"
@@ -79,8 +83,9 @@ class SslApplication {
             }
         }, 0, envProfile == 'aws' ? 20 : 5, TimeUnit.SECONDS)
         cdl.await()
-        SpringApplication.exit(ctx)
+//        SpringApplication.exit(ctx)
         Thread t = new Thread({
+            ['kill', '-9', pid].execute().waitFor()
             try {
                 for (int i = 0; i < 3; i++) {
                     def startCmd = ['./start.sh', 'notFirst']
